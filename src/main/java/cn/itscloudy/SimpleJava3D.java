@@ -175,6 +175,15 @@ public class SimpleJava3D {
 
                     }
 
+                } else if (parts[0].equals("quality")) {
+                    try {
+                        Quality.current = Quality.valueOf(parts[1]);
+                        lines.forEach(Line::reset);
+                        triangles.forEach(Triangle::reset);
+                        canvas.draw(lines);
+                    } catch (Exception ignore) {
+
+                    }
                 }
             }
         }

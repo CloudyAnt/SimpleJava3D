@@ -53,14 +53,10 @@ public class Canvas extends JPanel {
         Collections.sort(trianglePoints);
         for (Point tp : trianglePoints) {
             graphics.setColor(tp.color);
-            int x = tp.toPxX() - 1;
-            int y = tp.toPxY() - 1;
-            graphics.fillRect(x, y, 2, 2);
+            int x = tp.toPxX() - Quality.current.paintingOffset;
+            int y = tp.toPxY() - Quality.current.paintingOffset;
+            graphics.drawRect(x, y, Quality.current.rectLength, Quality.current.rectLength);
         }
-        // 20 -> 100
-        // 10 -> 50
-        // 6 -> 30
-        // 2 -> 10
     }
 
     public void transform(List<Line> lines) {

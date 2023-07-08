@@ -68,12 +68,12 @@ public class Line {
             Range<Double> yRange = xyF.heightRange;
             Double yMin = yRange.getMin();
             Double yMax = yRange.getMax();
-            for (double y = yMin; y <= yMax; y += 10) {
+            for (double y = yMin; y <= yMax; y += Quality.current.lineWidth) {
                 double z = yzF.getDvByIv(y);
                 container.add(new Point(maxX, y, z));
             }
         } else {
-            for (double x = minX; x <= maxX; x += 10) {
+            for (double x = minX; x <= maxX; x += Quality.current.lineWidth) {
                 double y = xyF.getDvByIv(x);
                 double z = xzF.getDvByIv(x);
                 container.add(new Point(x, y, z));

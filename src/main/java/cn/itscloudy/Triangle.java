@@ -55,7 +55,7 @@ class Triangle {
 
     void scan(double from, double to, Line mainLine, Line coLine) {
         if (!mainLine.xyLineFunc.perpendicular) {
-            for (double x = from; x < to; x += 10) {
+            for (double x = from; x < to; x += Quality.current.lineWidth) {
                 double y = mainLine.xyLineFunc.getDvByIv(x);
                 double z = mainLine.xzLineFunc.getDvByIv(x);
                 double y0 = y, z0 = z;
