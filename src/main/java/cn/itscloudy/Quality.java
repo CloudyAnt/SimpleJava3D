@@ -18,6 +18,6 @@ public enum Quality {
     Quality(int lineWidth) {
         this.lineWidth = lineWidth;
         this.rectLength = Math.max(1, lineWidth / 2);
-        paintingOffset = -rectLength / 2;
+        paintingOffset = rectLength / 2;
     }
 }
