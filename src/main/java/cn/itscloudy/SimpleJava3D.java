@@ -93,7 +93,10 @@ public class SimpleJava3D {
         };
 
         ArrayList<Triangle> triangles = new ArrayList<>();
-        triangles.add(new Triangle(a0, b0, c0));
+        triangles.add(new Triangle(a0, b0, c0, Color.BLUE));
+        triangles.add(new Triangle(b, c, d, Color.GREEN));
+        triangles.add(new Triangle(d, b0, b, Color.YELLOW));
+        triangles.add(new Triangle(c, c0, a0, Color.MAGENTA));
 
         canvas.draw(lines, triangles);
         canvas.addKeyListener(new KeyAdapter() {
@@ -129,7 +132,7 @@ public class SimpleJava3D {
                     points.forEach(degreeDealer);
                     lines.forEach(Line::reset);
                     triangles.forEach(Triangle::reset);
-                    canvas.draw(lines, triangles);
+                    canvas.draw(lines);
                 }
                 super.keyTyped(e);
             }

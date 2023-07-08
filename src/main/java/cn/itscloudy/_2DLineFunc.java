@@ -12,35 +12,36 @@ class _2DLineFunc {
     Range<Double> heightRange; // use this range to get points when it's perpendicular
 
     // create by 2 points
-    // for an x-y coordinate-system, active = x, passive = y
-    _2DLineFunc(double aActive, double aPassive, double bActive, double bPassive) {
-        heightRange = new Range<>(aPassive, bPassive);
-        if (aPassive == bPassive) {
+    // iv = independent variable, dv = dependent variable
+    // for an x-y coordinate-system, iv = x, dv = y
+    _2DLineFunc(double ivA, double dvA, double ivB, double dvB) {
+        heightRange = new Range<>(dvA, dvB);
+        if (dvA == dvB) {
             coefficient = 0;
-            constant = aPassive;
+            constant = dvA;
             perpendicular = false;
             return;
         }
-        if (aActive == bActive) {
+        if (ivA == ivB) {
             perpendicular = true;
             return;
         }
         perpendicular = false;
 
-        if (aActive > bActive) {
-            double height = aPassive - bPassive;
-            double width = aActive - bActive;
+        if (ivA > ivB) {
+            double height = dvA - dvB;
+            double width = ivA - ivB;
             coefficient = height / width;
-            constant = bPassive - bActive * coefficient;
+            constant = dvB - ivB * coefficient;
         } else {
-            double height = bPassive - aPassive;
-            double width = bActive - aActive;
+            double height = dvB - dvA;
+            double width = ivB - ivA;
             coefficient = height / width;
-            constant = aPassive - aActive * coefficient;
+            constant = dvA - ivA * coefficient;
         }
     }
 
-    double getByParam(double param) {
+    double getDvByIv(double param) {
         return param * coefficient + constant;
     }
 

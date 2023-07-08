@@ -1,20 +1,22 @@
 package cn.itscloudy;
 
+import java.awt.*;
 import java.util.Objects;
 
-public class Point {
+public class Point implements Comparable<Point> {
     String name;
     double x;
     double y;
     double z;
 
     static Point center = new Point() {{
+        // Skip other init prccesses
         x = 0;
         y = 0;
         z = (double) (SimpleJava3D.closeSurfaceDis + SimpleJava3D.farSurfaceDis) / 2;
     }};
 
-    double dis2;
+    double disToCenterSquare;
     double zyDis;
     double xzDis;
     double xyDis;
@@ -22,16 +24,20 @@ public class Point {
     double xzDegree;
     double xyDegree;
 
-    public Point() {
+    Color color;
+
+    private Point() {
+        color = Color.BLACK;
     }
 
     public Point(double x, double y, double z, String name) {
         this.name = name;
+        color = Color.BLACK;
         reset(x, y, z);
     }
 
     public Point(double x, double y, double z) {
-        this(x, y, z, "-");
+        this(x, y, z, "");
     }
 
     public void reset(double x, double y, double z) {
@@ -42,7 +48,7 @@ public class Point {
         zyDis = Math.sqrt(z(2) + y(2));
         xzDis = Math.sqrt(x(2) + z(2));
         xyDis = Math.sqrt(x(2) + y(2));
-        dis2 = x(2) + y(2) + z(2);
+        disToCenterSquare = x(2) + y(2) + z(2);
 
         zyDegree = degreeFromAB(y(1), z(1));
         xzDegree = degreeFromAB(z(1), x(1));
@@ -102,8 +108,8 @@ public class Point {
         x = format(xzDis * cos + center.x);
         z = format(xzDis * sin + center.z);
         //
-        zyDis = Math.sqrt(dis2 - x(2));
-        xyDis = Math.sqrt(dis2 - z(2));
+        zyDis = Math.sqrt(disToCenterSquare - x(2));
+        xyDis = Math.sqrt(disToCenterSquare - z(2));
         zyDegree = degreeFromAB(y(1), z(1));
         xyDegree = degreeFromAB(y(1), x(1));
     }
@@ -117,8 +123,8 @@ public class Point {
         x = format(xyDis * cos + center.x);
         y = format(xyDis * sin + center.y);
 
-        zyDis = Math.sqrt(dis2 - x(2));
-        xzDis = Math.sqrt(dis2 - y(2));
+        zyDis = Math.sqrt(disToCenterSquare - x(2));
+        xzDis = Math.sqrt(disToCenterSquare - y(2));
         zyDegree = degreeFromAB(y(1), z(1));
         xzDegree = degreeFromAB(z(1), x(1));
     }
@@ -132,8 +138,8 @@ public class Point {
         z = format(zyDis * cos + center.z);
         y = format(zyDis * sin + center.y);
 
-        xzDis = Math.sqrt(dis2 - y(2));
-        xyDis = Math.sqrt(dis2 - z(2));
+        xzDis = Math.sqrt(disToCenterSquare - y(2));
+        xyDis = Math.sqrt(disToCenterSquare - z(2));
 //        xzDis = Math.sqrt(x(2) + z(2));
 //        xyDis = Math.sqrt(x(2) + y(2));
         xzDegree = degreeFromAB(z(1), x(1));
@@ -180,5 +186,18 @@ public class Point {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, z);
+    }
+
+    @Override
+    public int compareTo(Point o) {
+        return Double.compare(o.z, z);
+    }
+
+    int toPxX() {
+        return SimpleJava3D.canvas.toPxX(x, z);
+    }
+
+    int toPxY() {
+        return SimpleJava3D.canvas.toPxY(y, z);
     }
 }
