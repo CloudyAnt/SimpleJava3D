@@ -9,23 +9,35 @@ class _2DLineFunc {
     double constant;
 
     final boolean perpendicular;
-    Range<Double> heightRange; // use this range to get points when it's perpendicular
+    final boolean parallel;
+    Range<Integer> heightRange; // use this range to get points when it's perpendicular
 
     // create by 2 points
     // iv = independent variable, dv = dependent variable
     // for an x-y coordinate-system, iv = x, dv = y
-    _2DLineFunc(double ivA, double dvA, double ivB, double dvB) {
+    _2DLineFunc(double ivAD, double dvAD, double ivBD, double dvBD) {
+        int ivA = (int) ivAD;
+        int dvA = (int) dvAD;
+        int ivB = (int) ivBD;
+        int dvB = (int) dvBD;
+
         heightRange = new Range<>(dvA, dvB);
-        if (dvA == dvB) {
-            coefficient = 0;
-            constant = dvA;
-            perpendicular = false;
-            return;
-        }
+
         if (ivA == ivB) {
+            parallel = false;
             perpendicular = true;
             return;
         }
+
+        if (dvA == dvB) {
+            coefficient = 0;
+            constant = dvA;
+            parallel = true;
+            perpendicular = false;
+            return;
+        }
+
+        parallel = false;
         perpendicular = false;
 
         if (ivA > ivB) {

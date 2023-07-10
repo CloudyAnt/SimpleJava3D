@@ -2,7 +2,7 @@ package cn.itscloudy;
 
 import cn.itscloudy.util.Range;
 
-import java.util.ArrayList;
+import java.awt.*;
 import java.util.List;
 
 public class Line {
@@ -46,7 +46,7 @@ public class Line {
     }
 
     static void toPxPoints(List<Point> container, double x1, double y1, double z1,
-                           double x2, double y2, double z2) {
+                           double x2, double y2, double z2, Color c) {
         _2DLineFunc xyLineFunc = new _2DLineFunc(x1, y1, x2, y2);
         _2DLineFunc xzLineFunc = new _2DLineFunc(x1, z1, x2, z2);
         _2DLineFunc yzLineFunc = new _2DLineFunc(y1, z1, y2, z2);
@@ -59,20 +59,28 @@ public class Line {
             maxX = x1;
         }
 
-        toPxPoints(container, xyLineFunc, xzLineFunc, yzLineFunc, minX, maxX);
+        toPxPoints(container, xyLineFunc, xzLineFunc, yzLineFunc, minX, maxX, c);
     }
 
     static void toPxPoints(List<Point> container, _2DLineFunc xyF, _2DLineFunc xzF, _2DLineFunc yzF,
-                           double minX, double maxX) {
+                           double minXD, double maxXD, Color c) {
+        int minX = (int) minXD;
+        int maxX = (int) maxXD;
         if (xyF.perpendicular) {
-            Range<Double> yRange = xyF.heightRange;
-            Double yMin = yRange.getMin();
-            Double yMax = yRange.getMax();
+            Range<Integer> yRange = xyF.heightRange;
+            Integer yMin = yRange.getMin();
+            Integer yMax = yRange.getMax();
+//            if (c == Color.GREEN) {
+//                System.out.println("1>> " + yMin + " - " + yMax);
+//            }
             for (double y = yMin; y <= yMax; y += Quality.current.lineWidth) {
                 double z = yzF.getDvByIv(y);
                 container.add(new Point(maxX, y, z));
             }
         } else {
+//            if (c == Color.GREEN) {
+//                System.out.println("2>> " + minX + " - " + maxX);
+//            }
             for (double x = minX; x <= maxX; x += Quality.current.lineWidth) {
                 double y = xyF.getDvByIv(x);
                 double z = xzF.getDvByIv(x);
@@ -80,4 +88,6 @@ public class Line {
             }
         }
     }
+
+    // TODO handle perpendicular, X-Y perpendicular in exclusive method
 }

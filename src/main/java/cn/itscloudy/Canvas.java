@@ -48,6 +48,9 @@ public class Canvas extends JPanel {
 
         List<Point> trianglePoints = new ArrayList<>();
         for (Triangle triangle : triangles) {
+            if (triangle.color == Color.GREEN) {
+                System.out.println("Green points num:" + triangle.points.size());
+            }
             trianglePoints.addAll(triangle.points);
         }
         Collections.sort(trianglePoints);

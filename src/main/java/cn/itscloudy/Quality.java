@@ -13,7 +13,7 @@ public enum Quality {
 
     final int paintingOffset;
 
-    static Quality current = HIGH;
+    static Quality current = LOWEST;
 
     Quality(int lineWidth) {
         this.lineWidth = lineWidth;

@@ -48,8 +48,8 @@ public class SimpleJava3D {
         // surface box
         Point a0 = pointOf(-300, 300, 500, "A0");
         Point b0 = pointOf(300, 300, 500, "B0");
-        Point c0 = pointOf(-300, -300, 500,  "C0");
-        Point d0 = pointOf(300, -300, 500, "D0");
+        Point c0 = pointOf(300, -300, 500, "C0");
+        Point d0 = pointOf(-300, -300, 500,  "D0");
         points.add(a0);
         points.add(b0);
         points.add(c0);
@@ -59,8 +59,8 @@ public class SimpleJava3D {
         // center: (0, 0, 3)
         Point a = pointOf(-300, 300, 1100, "A");
         Point b = pointOf(300, 300, 1100, "B");
-        Point c = pointOf(-300, -300, 1100, "C");
-        Point d = pointOf(300, -300, 1100, "D");
+        Point c = pointOf(300, -300, 1100, "C");
+        Point d = pointOf(-300, -300, 1100, "D");
 
         points.add(a);
         points.add(b);
@@ -72,19 +72,19 @@ public class SimpleJava3D {
             {
 
                 add(a, b);
-                add(b, d);
-                add(d, c);
-                add(c, a);
+                add(b, c);
+                add(c, d);
+                add(d, a);
 
                 add(a0, b0);
-                add(b0, d0);
-                add(d0, c0);
-                add(c0, a0);
+                add(b0, c0);
+                add(c0, d0);
+                add(d0, a0);
 
                 add(a0, a);
                 add(b0, b);
-                add(d0, d);
                 add(c0, c);
+                add(d0, d);
             }
 
             private void add(Point a, Point b) {
@@ -93,10 +93,10 @@ public class SimpleJava3D {
         };
 
         ArrayList<Triangle> triangles = new ArrayList<>();
-        triangles.add(new Triangle(a0, b0, c0, Color.BLUE));
-        triangles.add(new Triangle(b, c, d, Color.GREEN));
-        triangles.add(new Triangle(d, b0, b, Color.YELLOW));
-        triangles.add(new Triangle(c, c0, a0, Color.MAGENTA));
+        triangles.add(new Triangle(a0, b0, d0, Color.BLUE));
+        triangles.add(new Triangle(b, d, c, Color.GREEN));
+        triangles.add(new Triangle(c, b0, b, Color.YELLOW));
+        triangles.add(new Triangle(d, d0, a0, Color.MAGENTA));
 
         canvas.draw(lines, triangles);
         canvas.addKeyListener(new KeyAdapter() {
