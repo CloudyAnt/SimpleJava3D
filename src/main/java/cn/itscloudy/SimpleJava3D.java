@@ -20,7 +20,7 @@ public class SimpleJava3D {
 
     public SimpleJava3D() {
         frame.setBounds(0, 0, canvasLen, canvasLen);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new GridLayout(1, 1));
         frame.setUndecorated(true);
         frame.add(canvas);
@@ -93,10 +93,10 @@ public class SimpleJava3D {
         };
 
         ArrayList<Triangle> triangles = new ArrayList<>();
-        triangles.add(new Triangle(a0, b0, d0, Color.BLUE));
+        triangles.add(new Triangle(b0, d0, a0, Color.BLUE));
         triangles.add(new Triangle(b, d, c, Color.GREEN));
         triangles.add(new Triangle(c, b0, b, Color.YELLOW));
-        triangles.add(new Triangle(d, d0, a0, Color.MAGENTA));
+        triangles.add(new Triangle(a0, d, d0, Color.MAGENTA));
 
         canvas.draw(lines, triangles);
         canvas.addKeyListener(new KeyAdapter() {
