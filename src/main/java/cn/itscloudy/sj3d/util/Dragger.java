@@ -1,4 +1,4 @@
-package cn.itscloudy.util;
+package cn.itscloudy.sj3d.util;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

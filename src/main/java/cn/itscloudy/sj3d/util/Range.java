@@ -1,4 +1,6 @@
-package cn.itscloudy.util;
+package cn.itscloudy.sj3d.util;
+
+import java.util.function.Function;
 
 public class Range<T extends Comparable<T>> {
 
@@ -12,6 +14,10 @@ public class Range<T extends Comparable<T>> {
             this.min = b;
             this.max = a;
         }
+    }
+
+    public <U extends Comparable<U>> Range<U> mutate(Function<T, U> mutator) {
+        return new Range<>(mutator.apply(min), mutator.apply(max));
     }
 
     public T getMin() {

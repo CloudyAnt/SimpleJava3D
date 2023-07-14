@@ -1,9 +1,8 @@
-package cn.itscloudy;
+package cn.itscloudy.sj3d.legacy;
 
-import cn.itscloudy.util.Range;
+import cn.itscloudy.sj3d.util.Range;
 
 class _2DLineFunc {
-
     // dv = coefficient * iv + constant
     // iv = (dv - constant) / coefficient
     double coefficient;

@@ -1,4 +1,4 @@
-package cn.itscloudy;
+package cn.itscloudy.sj3d.legacy;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,12 +46,12 @@ public class Canvas extends JPanel {
             }
         }
 
-        List<Point> trianglePoints = new ArrayList<>();
+        List<SatellitePoint> trianglePoints = new ArrayList<>();
         for (Triangle triangle : triangles) {
             trianglePoints.addAll(triangle.points);
         }
         Collections.sort(trianglePoints);
-        for (Point tp : trianglePoints) {
+        for (SatellitePoint tp : trianglePoints) {
             graphics.setColor(tp.color);
             int x = tp.toPxX() - Quality.current.paintingOffset;
             int y = tp.toPxY() - Quality.current.paintingOffset;

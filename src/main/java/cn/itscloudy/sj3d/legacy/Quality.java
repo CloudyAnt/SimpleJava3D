@@ -1,4 +1,4 @@
-package cn.itscloudy;
+package cn.itscloudy.sj3d.legacy;
 
 public enum Quality {
     ULTRA_HIGH(1),
@@ -13,7 +13,7 @@ public enum Quality {
 
     final int paintingOffset;
 
-    static Quality current = LOWEST;
+    static Quality current = HIGH;
 
     Quality(int lineWidth) {
         this.lineWidth = lineWidth;

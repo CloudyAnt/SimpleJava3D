@@ -1,20 +1,6 @@
 # A simple Java 3D drawer
 
-![showcase](/readme-resources/showcase.gif)
-
-## Commands:
-
-Example to add a point:
-
-`p -300 0 500 P1 300 0 500 P2`
-
-*P1 and P2 is the point's name*
-
-Change quality:
-
-`quality HIGH`
-
-*There are 6 qualities: ULTRA, VERY_HIGH, HIGH, MEDIUM, LOW, LOWEST*
+![RotatableCube](/readme-resources/showcase.gif)
 
 ## Tricks
 

@@ -1,4 +1,4 @@
-package cn.itscloudy;
+package cn.itscloudy.sj3d.legacy;
 
 class PxPoint {
     int x;

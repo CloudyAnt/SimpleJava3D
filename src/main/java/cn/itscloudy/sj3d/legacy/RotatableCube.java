@@ -1,6 +1,7 @@
-package cn.itscloudy;
+package cn.itscloudy.sj3d.legacy;
 
-import cn.itscloudy.util.Dragger;
+import cn.itscloudy.sj3d.util.Dragger;
+import cn.itscloudy.sj3d.FixedPoint3D;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,15 +11,24 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
-public class SimpleJava3D {
+/**
+ * Generate a rotatable cube. <br/>
+ * Use w, a, d, s, q, r to rotate. <br/>
+ * Change quality: quality HIGH <br/>
+ * There are 6 qualities: ULTRA, VERY_HIGH, HIGH, MEDIUM, LOW, LOWEST
+ */
+public class RotatableCube {
     static int canvasLen = 601;
     static int closeSurfaceDis = 500;
     static int farSurfaceDis = 1100;
+    static FixedPoint3D center = new FixedPoint3D(0, 0,
+            (float) (RotatableCube.closeSurfaceDis + RotatableCube.farSurfaceDis) / 2);
+
 
     static JFrame frame = new JFrame();
-    static Canvas canvas = new Canvas(canvasLen);
+    static cn.itscloudy.sj3d.legacy.Canvas canvas = new Canvas(canvasLen);
 
-    public SimpleJava3D() {
+    public RotatableCube() {
         frame.setBounds(0, 0, canvasLen, canvasLen);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new GridLayout(1, 1));
@@ -31,25 +41,25 @@ public class SimpleJava3D {
         frame.setVisible(true);
     }
 
-    private static Point pointOf(double x, double y, double z) {
-        return new Point(x, y, 0);
+    private static SatellitePoint pointOf(double x, double y, double z) {
+        return new SatellitePoint(x, y, 0);
     }
 
-    private static Point pointOf(double x, double y, double z, String name) {
-        return new Point(x, y, z, name);
+    private static SatellitePoint pointOf(double x, double y, double z, String name) {
+        return new SatellitePoint(x, y, z, name);
     }
 
 
     public static void main(String[] args) {
-        SimpleJava3D frame = new SimpleJava3D();
+        RotatableCube frame = new RotatableCube();
         frame.show();
 
-        ArrayList<Point> points = new ArrayList<>();
+        ArrayList<SatellitePoint> points = new ArrayList<>();
         // surface box
-        Point a0 = pointOf(-300, 300, 500, "A0");
-        Point b0 = pointOf(300, 300, 500, "B0");
-        Point c0 = pointOf(300, -300, 500, "C0");
-        Point d0 = pointOf(-300, -300, 500,  "D0");
+        SatellitePoint a0 = pointOf(-300, 300, 500, "A0");
+        SatellitePoint b0 = pointOf(300, 300, 500, "B0");
+        SatellitePoint c0 = pointOf(300, -300, 500, "C0");
+        SatellitePoint d0 = pointOf(-300, -300, 500,  "D0");
         points.add(a0);
         points.add(b0);
         points.add(c0);
@@ -57,10 +67,10 @@ public class SimpleJava3D {
 
         // far side box
         // center: (0, 0, 3)
-        Point a = pointOf(-300, 300, 1100, "A");
-        Point b = pointOf(300, 300, 1100, "B");
-        Point c = pointOf(300, -300, 1100, "C");
-        Point d = pointOf(-300, -300, 1100, "D");
+        SatellitePoint a = pointOf(-300, 300, 1100, "A");
+        SatellitePoint b = pointOf(300, 300, 1100, "B");
+        SatellitePoint c = pointOf(300, -300, 1100, "C");
+        SatellitePoint d = pointOf(-300, -300, 1100, "D");
 
         points.add(a);
         points.add(b);
@@ -87,7 +97,7 @@ public class SimpleJava3D {
                 add(d0, d);
             }
 
-            private void add(Point a, Point b) {
+            private void add(SatellitePoint a, SatellitePoint b) {
                 add(new Line(a, b));
             }
         };
@@ -100,7 +110,7 @@ public class SimpleJava3D {
 
         canvas.draw(lines, triangles);
         canvas.addKeyListener(new KeyAdapter() {
-            Consumer<Point> degreeDealer = null;
+            Consumer<SatellitePoint> degreeDealer = null;
 
             @Override
             public void keyTyped(KeyEvent e) {
@@ -166,9 +176,9 @@ public class SimpleJava3D {
                         int z3 = intOf(parts[7]);
                         String name1 = parts[8];
 
-                        Point p0 = new Point(x, y, z, name);
+                        SatellitePoint p0 = new SatellitePoint(x, y, z, name);
                         points.add(p0);
-                        Point p1 = new Point(x1, y2, z3, name1);
+                        SatellitePoint p1 = new SatellitePoint(x1, y2, z3, name1);
                         points.add(p1);
                         lines.add(new Line(p0, p1));
                     } catch (Exception ignore) {

@@ -1,6 +1,6 @@
-package cn.itscloudy;
+package cn.itscloudy.sj3d.legacy;
 
-import cn.itscloudy.util.Range;
+import cn.itscloudy.sj3d.util.Range;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -8,9 +8,9 @@ import java.util.List;
 
 class Triangle {
 
-    private final Point c;
-    private final Point b;
-    private final Point a;
+    private final SatellitePoint c;
+    private final SatellitePoint b;
+    private final SatellitePoint a;
 
     private static final int B_EQUAL_A = 1;
     private static final int C_EQUAL_A = 2;
@@ -18,11 +18,11 @@ class Triangle {
 
     private final int OVERLAPPING;
 
-    List<Point> points;
+    List<SatellitePoint> points;
 
     Color color;
 
-    Triangle(Point a, Point b, Point c, Color color) {
+    Triangle(SatellitePoint a, SatellitePoint b, SatellitePoint c, Color color) {
         int overlapping = 0;
         if (b.equals(a)) {
             overlapping |= B_EQUAL_A;
@@ -60,7 +60,7 @@ class Triangle {
             scanByY();
         } else {
             // at this moment, the three points are all in a line which parallel to Z surface
-            Point p1, p2, p3;
+            SatellitePoint p1, p2, p3;
             if (b.z > a.z) {
                 p1 = a;
                 p2 = b;
@@ -81,7 +81,7 @@ class Triangle {
     }
 
     private void scanByZ() {
-        Point p1, p2, p3;
+        SatellitePoint p1, p2, p3;
         if (b.z > a.z) {
             p1 = a;
             p2 = b;
@@ -95,7 +95,7 @@ class Triangle {
             p3 = p2;
             p2 = c;
             if (p1.z > p2.z) {
-                Point temp = p1;
+                SatellitePoint temp = p1;
                 p1 = p2;
                 p2 = temp;
             }
@@ -113,7 +113,7 @@ class Triangle {
     }
 
     private void scanByY() {
-        Point p1, p2, p3;
+        SatellitePoint p1, p2, p3;
         if (b.y > a.y) {
             p1 = a;
             p2 = b;
@@ -127,7 +127,7 @@ class Triangle {
             p3 = p2;
             p2 = c;
             if (p1.y > p2.y) {
-                Point temp = p1;
+                SatellitePoint temp = p1;
                 p1 = p2;
                 p2 = temp;
             }
@@ -144,7 +144,7 @@ class Triangle {
     }
 
     private void scanByX() {
-        Point p1, p2, p3;
+        SatellitePoint p1, p2, p3;
         if (b.x > a.x) {
             p1 = a;
             p2 = b;
@@ -158,7 +158,7 @@ class Triangle {
             p3 = p2;
             p2 = c;
             if (p1.x > p2.x) {
-                Point temp = p1;
+                SatellitePoint temp = p1;
                 p1 = p2;
                 p2 = temp;
             }
@@ -184,18 +184,18 @@ class Triangle {
                 return;
             }
 
-            Range<Integer> yRange = mainLine.xyLineFunc.dvRange; // !! 12L -> 2Range
+            Range<Integer> yRange = mainLine.xyLineFunc.dvIRange;
             Integer minY = yRange.getMin();
             Integer maxY = yRange.getMax();
             if (mainLine.zPerp) {
                 // mainLine perpendicular to X-Z surface
-                Integer z = mainLine.xzLineFunc.dvRange.getMin(); // !! 13L -> 3
-                for (double y = minY; y <= maxY; y += Quality.current.lineWidth) {
-                    double z1 = coLine.yzLineFunc.getDvByIv(y); // !! 23L -> 3
-                    Double x1;
+                Integer z = mainLine.xzLineFunc.dvIRange.getMin();
+                for (float y = minY; y <= maxY; y += Quality.current.lineWidth) {
+                    float z1 = coLine.yzLineFunc.getDvByIv(y);
+                    Float x1;
                     if (coLine.xPerp) {
                         // x fixed when perpendicular to x
-                        x1 = (double) from;
+                        x1 = (float) from;
                     } else {
                         // get x by y
                         x1 = coLine.xyLineFunc.getIvByDv(y);
@@ -206,10 +206,10 @@ class Triangle {
                     Line.scanLinePoints(points, from, y, z, x1, y, z1);
                 }
             } else {
-                for (double y = minY; y <= maxY; y += Quality.current.lineWidth) {
-                    double z = mainLine.yzLineFunc.getDvByIv(y);
-                    double z1 = coLine.yzLineFunc.getDvByIv(y);
-                    Double x1 = coLine.xyLineFunc.getIvByDv(y);
+                for (float y = minY; y <= maxY; y += Quality.current.lineWidth) {
+                    float z = mainLine.yzLineFunc.getDvByIv(y);
+                    float z1 = coLine.yzLineFunc.getDvByIv(y);
+                    Float x1 = coLine.xyLineFunc.getIvByDv(y);
                     if (x1 == null) {
                         continue;
                     }
@@ -218,12 +218,12 @@ class Triangle {
             }
 
         } else {
-            for (double x = from; x <= to; x += Quality.current.lineWidth) {
-                double y = mainLine.xyLineFunc.getDvByIv(x);
-                double z = mainLine.xzLineFunc.getDvByIv(x);
+            for (float x = from; x <= to; x += Quality.current.lineWidth) {
+                float y = mainLine.xyLineFunc.getDvByIv(x);
+                float z = mainLine.xzLineFunc.getDvByIv(x);
 
-                double y1 = coLine.xyLineFunc.getDvByIv(x);
-                double z1 = coLine.xzLineFunc.getDvByIv(x);
+                float y1 = coLine.xyLineFunc.getDvByIv(x);
+                float z1 = coLine.xzLineFunc.getDvByIv(x);
                 Line.scanLinePoints(points, x, y, z, x, y1, z1);
             }
         }
@@ -240,23 +240,23 @@ class Triangle {
                 return;
             }
 
-            Range<Integer> zRange = mainLine.yzLineFunc.dvRange;
+            Range<Integer> zRange = mainLine.yzLineFunc.dvIRange;
             Integer minZ = zRange.getMin();
             Integer maxZ = zRange.getMax();
 
             if (mainLine.xPerp) {
                 // mainLine perpendicular to Y-X surface
-                Integer x = mainLine.xyLineFunc.ivRange.getMin();
-                for (double z = minZ; z <= maxZ; z += Quality.current.lineWidth) {
-                    Double x1 = coLine.xzLineFunc.getIvByDv(z);
+                Integer x = mainLine.xyLineFunc.ivIRange.getMin();
+                for (float z = minZ; z <= maxZ; z += Quality.current.lineWidth) {
+                    Float x1 = coLine.xzLineFunc.getIvByDv(z);
                     if (x1 == null) {
                         continue;
                     }
 
-                    Double y1;
+                    Float y1;
                     if (coLine.yPerp) {
                         // y fixed when perp to y
-                        y1 = (double) from;
+                        y1 = (float) from;
                     } else {
                         // get y by z
                         y1 = coLine.yzLineFunc.getIvByDv(z);
@@ -264,16 +264,16 @@ class Triangle {
                     Line.scanLinePoints(points, x, from, z, x1, y1, z);
                 }
             } else {
-                for (double z = minZ; z <= maxZ; z += Quality.current.lineWidth) {
-                    Double x = mainLine.xzLineFunc.getIvByDv(z);
+                for (float z = minZ; z <= maxZ; z += Quality.current.lineWidth) {
+                    Float x = mainLine.xzLineFunc.getIvByDv(z);
                     if (x == null) {
                         continue;
                     }
-                    Double x1 = coLine.xzLineFunc.getIvByDv(z);
+                    Float x1 = coLine.xzLineFunc.getIvByDv(z);
                     if (x1 == null) {
                         continue;
                     }
-                    Double y1 = coLine.yzLineFunc.getIvByDv(z);
+                    Float y1 = coLine.yzLineFunc.getIvByDv(z);
                     if (y1 == null) {
                         continue;
                     }
@@ -282,15 +282,15 @@ class Triangle {
             }
 
         } else {
-            for (double y = from; y <= to; y += Quality.current.lineWidth) {
-                double z = mainLine.yzLineFunc.getDvByIv(y);
-                Double x = mainLine.xyLineFunc.getIvByDv(y);
+            for (float y = from; y <= to; y += Quality.current.lineWidth) {
+                float z = mainLine.yzLineFunc.getDvByIv(y);
+                Float x = mainLine.xyLineFunc.getIvByDv(y);
                 if (x == null) {
                     continue;
                 }
 
-                double z1 = coLine.yzLineFunc.getDvByIv(y);
-                Double x1 = coLine.xyLineFunc.getIvByDv(y);
+                float z1 = coLine.yzLineFunc.getDvByIv(y);
+                Float x1 = coLine.xyLineFunc.getIvByDv(y);
                 if (x1 == null) {
                     continue;
                 }
@@ -310,16 +310,16 @@ class Triangle {
                 return;
             }
 
-            Range<Integer> xRange = mainLine.xzLineFunc.ivRange;
+            Range<Integer> xRange = mainLine.xzLineFunc.ivIRange;
             Integer minX = xRange.getMin();
             Integer maxX = xRange.getMax();
             if (mainLine.yPerp) {
                 // mainLine perpendicular to Y-Z surface
-                Integer y = mainLine.yzLineFunc.ivRange.getMin();
-                for (double x = minX; x <= maxX; x += Quality.current.lineWidth) {
-                    double y1 = coLine.xyLineFunc.getDvByIv(x);
+                Integer y = mainLine.yzLineFunc.ivIRange.getMin();
+                for (float x = minX; x <= maxX; x += Quality.current.lineWidth) {
+                    float y1 = coLine.xyLineFunc.getDvByIv(x);
 
-                    double z1;
+                    float z1;
                     if (coLine.zPerp) {
                         z1 = from;
                     } else {
@@ -328,29 +328,29 @@ class Triangle {
                     Line.scanLinePoints(points, x, y, from, x, y1, z1);
                 }
             } else {
-                for (double x = minX; x <= maxX; x += Quality.current.lineWidth) {
-                    double y = mainLine.xyLineFunc.getDvByIv(x);
-                    double y1 = coLine.xyLineFunc.getDvByIv(x);
-                    double z1 = coLine.xzLineFunc.getDvByIv(x);
+                for (float x = minX; x <= maxX; x += Quality.current.lineWidth) {
+                    float y = mainLine.xyLineFunc.getDvByIv(x);
+                    float y1 = coLine.xyLineFunc.getDvByIv(x);
+                    float z1 = coLine.xzLineFunc.getDvByIv(x);
                     Line.scanLinePoints(points, x, y, from, x, y1, z1);
                 }
             }
 
         } else {
-            for (double z = from; z <= to; z += Quality.current.lineWidth) {
-                Double x = mainLine.xzLineFunc.getIvByDv(z);
+            for (float z = from; z <= to; z += Quality.current.lineWidth) {
+                Float x = mainLine.xzLineFunc.getIvByDv(z);
                 if (x == null) {
                     continue;
                 }
-                Double y = mainLine.yzLineFunc.getIvByDv(z);
+                Float y = mainLine.yzLineFunc.getIvByDv(z);
                 if (y == null) {
                     continue;
                 }
-                Double x1 = coLine.xzLineFunc.getIvByDv(z);
+                Float x1 = coLine.xzLineFunc.getIvByDv(z);
                 if (x1 == null) {
                     continue;
                 }
-                Double y1 = coLine.yzLineFunc.getIvByDv(z);
+                Float y1 = coLine.yzLineFunc.getIvByDv(z);
                 if (y1 == null) {
                     continue;
                 }

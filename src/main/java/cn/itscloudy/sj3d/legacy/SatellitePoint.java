@@ -1,20 +1,15 @@
-package cn.itscloudy;
+package cn.itscloudy.sj3d.legacy;
+
+import cn.itscloudy.sj3d.FixedPoint3D;
 
 import java.awt.*;
 import java.util.Objects;
 
-public class Point implements Comparable<Point> {
+public class SatellitePoint implements Comparable<SatellitePoint> {
     String name;
     double x;
     double y;
     double z;
-
-    static Point center = new Point() {{
-        // Skip other init prccesses
-        x = 0;
-        y = 0;
-        z = (double) (SimpleJava3D.closeSurfaceDis + SimpleJava3D.farSurfaceDis) / 2;
-    }};
 
     double disToCenterSquare;
     double zyDis;
@@ -26,17 +21,15 @@ public class Point implements Comparable<Point> {
 
     Color color;
 
-    private Point() {
-        color = Color.BLACK;
-    }
+    FixedPoint3D center = RotatableCube.center;
 
-    public Point(double x, double y, double z, String name) {
+    public SatellitePoint(double x, double y, double z, String name) {
         this.name = name;
         color = Color.BLACK;
         reset(x, y, z);
     }
 
-    public Point(double x, double y, double z) {
+    public SatellitePoint(double x, double y, double z) {
         this(x, y, z, "");
     }
 
@@ -88,26 +81,13 @@ public class Point implements Comparable<Point> {
     }
 
     public void xzTurn(int degree) {
-//        if (center == null) {
-//            return;
-//        }
-//        if (!center.equals(this.center)) {
-//            this.center = center;
-//
-//            zyDis = Math.sqrt(z(2) + y(2));
-//            xyDis = Math.sqrt(x(2) + y(2));
-//
-//            zyDegree = (int) degreeFromAB(y(1), z(1));
-//            xyDegree = (int) degreeFromAB(y(1), x(1));
-//        }
-
         xzDegree = addDegree(degree, xzDegree);
         double cos = Math.cos(Math.toRadians(xzDegree));
         double sin = Math.sin(Math.toRadians(xzDegree));
 
         x = format(xzDis * cos + center.x);
         z = format(xzDis * sin + center.z);
-        //
+
         zyDis = Math.sqrt(disToCenterSquare - x(2));
         xyDis = Math.sqrt(disToCenterSquare - z(2));
         zyDegree = degreeFromAB(y(1), z(1));
@@ -140,8 +120,6 @@ public class Point implements Comparable<Point> {
 
         xzDis = Math.sqrt(disToCenterSquare - y(2));
         xyDis = Math.sqrt(disToCenterSquare - z(2));
-//        xzDis = Math.sqrt(x(2) + z(2));
-//        xyDis = Math.sqrt(x(2) + y(2));
         xzDegree = degreeFromAB(z(1), x(1));
         xyDegree = degreeFromAB(y(1), x(1));
     }
@@ -152,7 +130,6 @@ public class Point implements Comparable<Point> {
 
     private double format(double d) {
         return d;
-//        return (int) (d * 1000) / (double) 1000;
     }
 
     @Override
@@ -177,7 +154,7 @@ public class Point implements Comparable<Point> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Point point = (Point) o;
+        SatellitePoint point = (SatellitePoint) o;
         return Double.compare(point.x, x) == 0 &&
                 Double.compare(point.y, y) == 0 &&
                 Double.compare(point.z, z) == 0;
@@ -189,15 +166,15 @@ public class Point implements Comparable<Point> {
     }
 
     @Override
-    public int compareTo(Point o) {
+    public int compareTo(SatellitePoint o) {
         return Double.compare(o.z, z);
     }
 
     int toPxX() {
-        return SimpleJava3D.canvas.toPxX(x, z);
+        return RotatableCube.canvas.toPxX(x, z);
     }
 
     int toPxY() {
-        return SimpleJava3D.canvas.toPxY(y, z);
+        return RotatableCube.canvas.toPxY(y, z);
     }
 }

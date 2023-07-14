@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="SimpleJava3D" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="cn.itscloudy.SimpleJava3D" />
+  <configuration default="false" name="RotatableCube" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="cn.itscloudy.sj3d.legacy.RotatableCube" />
     <module name="SimpleJava3D" />
     <extension name="coverage">
       <pattern>
