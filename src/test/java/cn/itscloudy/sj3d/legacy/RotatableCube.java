@@ -1,7 +1,7 @@
 package cn.itscloudy.sj3d.legacy;
 
+import cn.itscloudy.sj3d.Quality;
 import cn.itscloudy.sj3d.util.Dragger;
-import cn.itscloudy.sj3d.FixedPoint3D;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,14 +19,12 @@ import java.util.function.Consumer;
  */
 public class RotatableCube {
     static int canvasLen = 601;
-    static int closeSurfaceDis = 500;
-    static int farSurfaceDis = 1100;
-    static FixedPoint3D center = new FixedPoint3D(0, 0,
-            (float) (RotatableCube.closeSurfaceDis + RotatableCube.farSurfaceDis) / 2);
-
 
     static JFrame frame = new JFrame();
-    static cn.itscloudy.sj3d.legacy.Canvas canvas = new Canvas(canvasLen);
+    static {
+        Canvas.instance = new Canvas(canvasLen);
+    }
+    static cn.itscloudy.sj3d.legacy.Canvas canvas = Canvas.instance;
 
     public RotatableCube() {
         frame.setBounds(0, 0, canvasLen, canvasLen);

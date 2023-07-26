@@ -1,12 +1,21 @@
 package cn.itscloudy.sj3d.legacy;
 
+import cn.itscloudy.sj3d.FixedColoredPoint3D;
+import cn.itscloudy.sj3d.FixedPoint3D;
+import cn.itscloudy.sj3d.Quality;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Canvas extends JPanel {
+    public static Canvas instance;
+    static int closeSurfaceDis = 500;
+    static int farSurfaceDis = 1100;
+    static FixedPoint3D center = new FixedPoint3D(0, 0,
+            (float) (closeSurfaceDis + farSurfaceDis) / 2);
+
     int lenCoefficient = 100;
     int centralX;
     int centralY;
@@ -46,15 +55,15 @@ public class Canvas extends JPanel {
             }
         }
 
-        List<SatellitePoint> trianglePoints = new ArrayList<>();
+        List<FixedColoredPoint3D> trianglePoints = new ArrayList<>();
         for (Triangle triangle : triangles) {
             trianglePoints.addAll(triangle.points);
         }
-        Collections.sort(trianglePoints);
-        for (SatellitePoint tp : trianglePoints) {
+        trianglePoints.sort((a, b) -> Float.compare(b.z, a.z));
+        for (FixedColoredPoint3D tp : trianglePoints) {
             graphics.setColor(tp.color);
-            int x = tp.toPxX() - Quality.current.paintingOffset;
-            int y = tp.toPxY() - Quality.current.paintingOffset;
+            int x = Canvas.instance.toPxX(tp.x, tp.z) - Quality.current.paintingOffset;
+            int y = Canvas.instance.toPxY(tp.y, tp.z) - Quality.current.paintingOffset;
             graphics.drawRect(x, y, Quality.current.rectLength, Quality.current.rectLength);
         }
     }

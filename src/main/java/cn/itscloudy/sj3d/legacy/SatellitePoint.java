@@ -1,15 +1,13 @@
 package cn.itscloudy.sj3d.legacy;
 
 import cn.itscloudy.sj3d.FixedPoint3D;
+import cn.itscloudy.sj3d.Point3D;
 
 import java.awt.*;
 import java.util.Objects;
 
-public class SatellitePoint implements Comparable<SatellitePoint> {
+public class SatellitePoint extends Point3D implements Comparable<SatellitePoint> {
     String name;
-    double x;
-    double y;
-    double z;
 
     double disToCenterSquare;
     double zyDis;
@@ -21,9 +19,10 @@ public class SatellitePoint implements Comparable<SatellitePoint> {
 
     Color color;
 
-    FixedPoint3D center = RotatableCube.center;
+    FixedPoint3D center = Canvas.center;
 
     public SatellitePoint(double x, double y, double z, String name) {
+        super((float) x, (float) y, (float) z);
         this.name = name;
         color = Color.BLACK;
         reset(x, y, z);
@@ -128,8 +127,8 @@ public class SatellitePoint implements Comparable<SatellitePoint> {
         return degree % 360 + (int) origin;
     }
 
-    private double format(double d) {
-        return d;
+    private float format(double d) {
+        return (float) d;
     }
 
     @Override
@@ -171,10 +170,10 @@ public class SatellitePoint implements Comparable<SatellitePoint> {
     }
 
     int toPxX() {
-        return RotatableCube.canvas.toPxX(x, z);
+        return Canvas.instance.toPxX(x, z);
     }
 
     int toPxY() {
-        return RotatableCube.canvas.toPxY(y, z);
+        return Canvas.instance.toPxY(y, z);
     }
 }

@@ -1,9 +1,9 @@
 package cn.itscloudy.sj3d;
 
-public class Point3D {
-    protected float x;
-    protected float y;
-    protected float z;
+public class Point3D implements FloatXYZ {
+    public float x;
+    public float y;
+    public float z;
 
     public Point3D(float x, float y, float z) {
         this.x = x;
@@ -11,10 +11,22 @@ public class Point3D {
         this.z = z;
     }
 
-    /**
-     * compare by z. Sort from the deepest to shallowest
-     */
     public int compareByZ(Point3D another) {
         return Float.compare(another.z, z);
+    }
+
+    @Override
+    public float getX() {
+        return x;
+    }
+
+    @Override
+    public float getY() {
+        return y;
+    }
+
+    @Override
+    public float getZ() {
+        return z;
     }
 }
