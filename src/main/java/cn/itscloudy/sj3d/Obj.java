@@ -45,6 +45,12 @@ public class Obj extends Point3D {
         points.add(new RelationalPoint(rx, ry, rz));
     }
 
+    public void addPoint(float x, float y, float z, Color color) {
+        RelationalPoint p = new RelationalPoint(x, y, z);
+        p.color = color;
+        points.add(p);
+    }
+
     public void addLine(float rx1, float ry1, float rz1, float rx2, float ry2, float rz2, String id) {
         lines.add(new RelationalLine(rx1, ry1, rz1, rx2, ry2, rz2, id));
     }
@@ -62,6 +68,7 @@ public class Obj extends Point3D {
         for (RelationalPoint rp : points) {
             Point point = getPoint2D(rp);
             if (point == null) return;
+            graphics2D.setColor(rp.color);
             graphics2D.drawString(String.valueOf(rp.id), point.x, point.y);
         }
         for (RelationalLine line : lines) {
@@ -70,6 +77,7 @@ public class Obj extends Point3D {
             if (p1 == null || p2 == null) {
                 return;
             }
+            graphics2D.setColor(line.color);
             graphics2D.drawString(line.id, (p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
             graphics2D.drawLine(p1.x, p1.y, p2.x, p2.y);
         }
@@ -179,6 +187,7 @@ public class Obj extends Point3D {
         private float wxyRad;
         private float wxzRad;
         private float wyzRad;
+        private Color color = Color.BLACK;
 
         private RelationalPoint(float ox, float oy, float oz) {
             this(ox, oy, oz, ".");
@@ -260,6 +269,7 @@ public class Obj extends Point3D {
         private final RelationalPoint p1;
         private final RelationalPoint p2;
         private final String id;
+        private Color color = Color.BLACK;
 
         private RelationalLine(float rx1, float ry1, float rz1, float rx2, float ry2, float rz2) {
             this(rx1, ry1, rz1, rx2, ry2, rz2, "");
